@@ -40,11 +40,7 @@ private:
         const QString accent      = "#7C4DFF";
         const QString accentHover = "#651FFF";
         const QString accentPress = "#6200EA";
-
-        // Другорядна кнопка та неактивні пункти меню:
-        // світла тема — фіолетовий; темна — пастельний бузковий
         const QString secondaryColor = (t == Light) ? accent : "#B39DDB";
-        // Неактивні пункти меню
         const QString disabledMenuColor = (t == Light) ? "#BDBDBD" : "#585B70";
 
         QString qss;
@@ -91,10 +87,9 @@ QPushButton:hover    { background-color: %2; }
 QPushButton:pressed  { background-color: %3; }
 QPushButton:disabled { background-color: #BDBDBD; color: #757575; }
 
-/* Другорядна кнопка — прозорий фон, кольоровий текст */
 QPushButton#secondaryBtn {
     background-color: transparent;
-    color: %4;                /* фіолетовий для світлої теми */
+    color: %4;               
     border: none;
     min-width: 0;
     padding: 6px 10px;
@@ -103,7 +98,6 @@ QPushButton#secondaryBtn {
 QPushButton#secondaryBtn:hover { background-color: #EDE7F6; border-radius: 6px; }
 QPushButton#secondaryBtn:pressed { background-color: #D1C4E9; }
 
-/* Іконка-кнопка теми — квадратна, без рамки; кольором збігається з secondaryBtn */
 QPushButton#themeIconBtn {
     background-color: transparent;
     border: none;
@@ -111,7 +105,7 @@ QPushButton#themeIconBtn {
     min-height: 0;
     padding: 4px 8px;
     font-size: 18px;
-    color: %4;                 /* робимо значок того ж кольору, що і secondaryBtn */
+    color: %4;                 
 }
 QPushButton#themeIconBtn:hover { background-color: #EDE7F6; border-radius: 6px; }
 
@@ -189,7 +183,7 @@ QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical { height: 0; }
 )").arg(accent, accentHover, accentPress, secondaryColor, disabledMenuColor);
 
         } else {
-            // ── Темна тема ─────────────────────────────────────────────
+            // темна тема 
             qss = QString(R"(
 QMainWindow, QDialog {
     background-color: #1E1E2E;
@@ -232,10 +226,9 @@ QPushButton:hover    { background-color: %2; }
 QPushButton:pressed  { background-color: %3; }
 QPushButton:disabled { background-color: #45475A; color: #585B70; }
 
-/* У темній темі: робимо secondaryBtn білим, щоб контрастувати з темним фоном */
 QPushButton#secondaryBtn {
     background-color: transparent;
-    color: #FFFFFF;           /* БІЛИЙ для теми */
+    color: #FFFFFF;          
     border: none;
     min-width: 0;
     padding: 6px 10px;
@@ -244,7 +237,6 @@ QPushButton#secondaryBtn {
 QPushButton#secondaryBtn:hover   { background-color: #2A2640; border-radius: 6px; }
 QPushButton#secondaryBtn:pressed { background-color: #313244; }
 
-/* Іконка теми теж біла у темній темі, щоб бути читабельною */
 QPushButton#themeIconBtn {
     background-color: transparent;
     border: none;
@@ -252,7 +244,7 @@ QPushButton#themeIconBtn {
     min-height: 0;
     padding: 4px 8px;
     font-size: 18px;
-    color: #FFFFFF;           /* БІЛИЙ для теми */
+    color: #FFFFFF;          
 }
 QPushButton#themeIconBtn:hover { background-color: #2A2640; border-radius: 6px; }
 
