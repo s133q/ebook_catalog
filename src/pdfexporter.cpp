@@ -8,7 +8,6 @@
 
 PdfExporter::PdfExporter(QObject *parent) : QObject(parent) {}
 
-// Розбиває рядок на підрядки заданої ширини (word-wrap)
 static QStringList wrapText(const QFontMetrics &fm,
                             const QString &text, int maxWidth)
 {
@@ -66,7 +65,7 @@ bool PdfExporter::exportToPdf(const QList<Book> &books,
     QFont fRow("Arial", 8);
     QFont fFoot("Arial", 8);
 
-    // ── Заголовок ──────────────────────────────────────────────────────
+    // заголовок
     p.setFont(fTitle);
     p.drawText(QRect(L, y, W, 36), Qt::AlignHCenter | Qt::AlignVCenter, title);
     y += 44;
@@ -78,7 +77,7 @@ bool PdfExporter::exportToPdf(const QList<Book> &books,
     p.setPen(Qt::black);
     y += 28;
 
-    // ── Колонки ────────────────────────────────────────────────────────
+    // колонки
     const int c0 = 28;            // №
     const int c4 = 44;            // Рік
     const int c5 = W * 17 / 100; // ISBN
@@ -110,7 +109,7 @@ bool PdfExporter::exportToPdf(const QList<Book> &books,
 
     drawHeader();
 
-    // ── Рядки даних ────────────────────────────────────────────────────
+    // рядки 
     p.setFont(fRow);
     const QFontMetrics fm(fRow);
     bool shade = false;
@@ -158,7 +157,7 @@ bool PdfExporter::exportToPdf(const QList<Book> &books,
         y += rowH;
     }
 
-    // ── Підсумок ───────────────────────────────────────────────────────
+    // підсумок
     y += 12;
     if (y + 18 <= BOT) {
         p.setFont(fFoot);
