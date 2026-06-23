@@ -24,7 +24,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     if (!m_db->init()) {
         QMessageBox::critical(this, "Помилка БД",
-            "Не вдалося відкрити базу даних:\n" + m_db->lastError());
+                              "Не вдалося відкрити базу даних:\n" + m_db->lastError());
     }
 
     buildUi();
@@ -40,7 +40,7 @@ MainWindow::~MainWindow() {}
 
 void MainWindow::buildUi()
 {
-    // рядок пошуку 
+    // рядок пошуку
     m_searchEdit = new QLineEdit(this);
     m_searchEdit->setPlaceholderText("Пошук за назвою, автором, жанром, ISBN...");
     m_searchEdit->setClearButtonEnabled(true);
@@ -51,7 +51,7 @@ void MainWindow::buildUi()
     m_resetBtn = new QPushButton("× Скинути", this);
     m_resetBtn->setObjectName("secondaryBtn");
 
-    // кнопка теми 
+    // кнопка теми
     m_themeBtn = new QPushButton(ThemeManager::instance().isDark() ? "☀" : "☾", this);
     m_themeBtn->setObjectName("themeIconBtn");
     m_themeBtn->setToolTip("Перемкнути тему");
@@ -64,7 +64,7 @@ void MainWindow::buildUi()
     searchRow->addStretch();
     searchRow->addWidget(m_themeBtn);
 
-    // панель фільтрів
+    // панель фільтрів 
     m_authorCombo = new QComboBox(this);
     m_authorCombo->addItem("Усі автори");
     m_authorCombo->setMinimumWidth(170);
@@ -102,7 +102,7 @@ void MainWindow::buildUi()
     auto *filterBox = new QGroupBox("Фільтр", this);
     filterBox->setLayout(filterRow);
 
-    // таблиця
+    // таблиця 
     m_table = new QTableWidget(this);
     m_table->setColumnCount(6);
     m_table->setHorizontalHeaderLabels(
@@ -122,7 +122,7 @@ void MainWindow::buildUi()
     m_table->setSortingEnabled(true);
     m_table->setWordWrap(false);
 
-    // кнопки CRUD і експорту
+    // кнопки CRUD і експорт
     m_addBtn    = new QPushButton("+ Додати",     this);
     m_editBtn   = new QPushButton("✎ Редагувати", this);
     m_deleteBtn = new QPushButton("⌫ Видалити",   this);
@@ -181,8 +181,9 @@ void MainWindow::buildMenu()
     auto *helpMenu = menuBar()->addMenu("Довідка");
     helpMenu->addAction("Про програму", this, [this]() {
         QMessageBox::about(this, "Про програму",
-            "<b>Каталог електронних книг</b><br>"
-            "Курсова робота Оропай О.В. КІУКІу-25-1");
+                           "<b>Каталог електронних книг</b><br>Версія 1.0<br><br>"
+                           "Кросплатформний застосунок для обліку та пошуку електронних книг.<br>"
+                           "Qt 6 · C++ · Qt Widgets · SQLite");
     });
 }
 
@@ -217,7 +218,7 @@ void MainWindow::onAddBook()
                 QString("Книгу «%1» успішно додано").arg(b.title));
         } else {
             QMessageBox::warning(this, "Помилка",
-                "Не вдалося додати книгу:\n" + m_db->lastError());
+                                 "Не вдалося додати книгу:\n" + m_db->lastError());
         }
     }
 }
@@ -243,7 +244,7 @@ void MainWindow::onEditBook()
                 QString("Книгу «%1» оновлено").arg(updated.title));
         } else {
             QMessageBox::warning(this, "Помилка",
-                "Не вдалося оновити книгу:\n" + m_db->lastError());
+                                 "Не вдалося оновити книгу:\n" + m_db->lastError());
         }
     }
 }
@@ -258,8 +259,8 @@ void MainWindow::onDeleteBook()
         if (b.id == id) { title = b.title; break; }
 
     if (QMessageBox::question(this, "Підтвердження",
-            QString("Видалити книгу «%1»?").arg(title),
-            QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
+                              QString("Видалити книгу «%1»?").arg(title),
+                              QMessageBox::Yes | QMessageBox::No) == QMessageBox::Yes)
     {
         if (m_db->deleteBook(id)) {
             updateFilterComboBoxes();
@@ -267,7 +268,7 @@ void MainWindow::onDeleteBook()
             m_statusLabel->setText(QString("Книгу «%1» видалено").arg(title));
         } else {
             QMessageBox::warning(this, "Помилка",
-                "Не вдалося видалити книгу:\n" + m_db->lastError());
+                                 "Не вдалося видалити книгу:\n" + m_db->lastError());
         }
     }
 }
@@ -284,9 +285,9 @@ void MainWindow::onSearch()
 void MainWindow::onFilter()
 {
     const QString author = (m_authorCombo->currentIndex() <= 0)
-                           ? QString() : m_authorCombo->currentText();
+    ? QString() : m_authorCombo->currentText();
     const QString genre  = (m_genreCombo->currentIndex() <= 0)
-                           ? QString() : m_genreCombo->currentText();
+                              ? QString() : m_genreCombo->currentText();
     const int yearFrom = m_yearFromSpin->value();
     const int yearTo   = m_yearToSpin->value();
 
@@ -309,7 +310,7 @@ void MainWindow::onExportPdf()
 {
     if (m_currentBooks.isEmpty()) {
         QMessageBox::information(this, "Експорт PDF",
-            "Список книг порожній — нічого експортувати.");
+                                 "Список книг порожній — нічого експортувати.");
         return;
     }
     if (m_pdf->exportToPdf(m_currentBooks, "Каталог електронних книг", this))
@@ -347,7 +348,6 @@ void MainWindow::refreshTable(const QList<Book> &books)
         const int row = m_table->rowCount();
         m_table->insertRow(row);
 
-        // Qt::Alignment замість int — усуває deprecation warning у Qt 6
         auto makeItem = [](const QString &text,
                            Qt::Alignment align = Qt::AlignVCenter | Qt::AlignLeft)
         {
@@ -359,14 +359,43 @@ void MainWindow::refreshTable(const QList<Book> &books)
             return it;
         };
 
-        const QString yearStr = b.year > 0 ? QString::number(b.year) : "";
-        m_table->setItem(row, 0, makeItem(QString::number(b.id),
-                                          Qt::AlignVCenter | Qt::AlignRight));
+        auto makeNumItem = [](int value, const QString &text,
+                              Qt::Alignment align = Qt::AlignVCenter
+                                                    | Qt::AlignRight)
+        {
+            auto *it = new QTableWidgetItem(text);
+            it->setTextAlignment(align);
+            it->setFlags(it->flags() & ~Qt::ItemIsEditable);
+            it->setData(Qt::UserRole, value);
+            return it;
+        };
+
+        struct NumItem : public QTableWidgetItem {
+            bool operator<(const QTableWidgetItem &other) const override {
+                return data(Qt::UserRole).toInt()
+                < other.data(Qt::UserRole).toInt();
+            }
+        };
+
+        auto *idItem = new NumItem();
+        idItem->setText(QString::number(b.id));
+        idItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignRight);
+        idItem->setFlags(idItem->flags() & ~Qt::ItemIsEditable);
+        idItem->setData(Qt::UserRole, b.id);
+        m_table->setItem(row, 0, idItem);
+
         m_table->setItem(row, 1, makeItem(b.title));
         m_table->setItem(row, 2, makeItem(b.author));
         m_table->setItem(row, 3, makeItem(b.genre));
-        m_table->setItem(row, 4, makeItem(yearStr,
-                                          Qt::AlignVCenter | Qt::AlignHCenter));
+
+        auto *yearItem = new NumItem();
+        yearItem->setText(b.year > 0 ? QString::number(b.year) : "");
+        yearItem->setTextAlignment(Qt::AlignVCenter | Qt::AlignHCenter);
+        yearItem->setFlags(yearItem->flags() & ~Qt::ItemIsEditable);
+        yearItem->setData(Qt::UserRole, b.year);
+        if (b.year > 0) yearItem->setToolTip(QString::number(b.year));
+        m_table->setItem(row, 4, yearItem);
+
         m_table->setItem(row, 5, makeItem(b.isbn));
 
         m_table->setRowHeight(row, 28);
