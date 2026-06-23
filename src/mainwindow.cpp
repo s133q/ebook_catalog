@@ -30,17 +30,17 @@ MainWindow::MainWindow(QWidget *parent)
     buildUi();
     buildMenu();
     connectSignals();
-    updateFilterComboBoxes(); // заповнюємо фільтри одразу при старті
+    updateFilterComboBoxes(); 
     loadAllBooks();
 }
 
 MainWindow::~MainWindow() {}
 
-// ─── Побудова UI ──────────────────────────────────────────────────────────
+// побудова UI
 
 void MainWindow::buildUi()
 {
-    // ── Рядок пошуку ─────────────────────────────────────────────────────
+    // рядок пошуку 
     m_searchEdit = new QLineEdit(this);
     m_searchEdit->setPlaceholderText("Пошук за назвою, автором, жанром, ISBN...");
     m_searchEdit->setClearButtonEnabled(true);
@@ -51,7 +51,7 @@ void MainWindow::buildUi()
     m_resetBtn = new QPushButton("× Скинути", this);
     m_resetBtn->setObjectName("secondaryBtn");
 
-    // Кнопка теми — тільки іконка, без тексту і рамки
+    // кнопка теми 
     m_themeBtn = new QPushButton(ThemeManager::instance().isDark() ? "☀" : "☾", this);
     m_themeBtn->setObjectName("themeIconBtn");
     m_themeBtn->setToolTip("Перемкнути тему");
@@ -64,7 +64,7 @@ void MainWindow::buildUi()
     searchRow->addStretch();
     searchRow->addWidget(m_themeBtn);
 
-    // ── Панель фільтрів ───────────────────────────────────────────────────
+    // панель фільтрів
     m_authorCombo = new QComboBox(this);
     m_authorCombo->addItem("Усі автори");
     m_authorCombo->setMinimumWidth(170);
@@ -102,7 +102,7 @@ void MainWindow::buildUi()
     auto *filterBox = new QGroupBox("Фільтр", this);
     filterBox->setLayout(filterRow);
 
-    // ── Таблиця ───────────────────────────────────────────────────────────
+    // таблиця
     m_table = new QTableWidget(this);
     m_table->setColumnCount(6);
     m_table->setHorizontalHeaderLabels(
@@ -122,7 +122,7 @@ void MainWindow::buildUi()
     m_table->setSortingEnabled(true);
     m_table->setWordWrap(false);
 
-    // ── Кнопки CRUD ───────────────────────────────────────────────────────
+    // кнопки CRUD і експорту
     m_addBtn    = new QPushButton("+ Додати",     this);
     m_editBtn   = new QPushButton("✎ Редагувати", this);
     m_deleteBtn = new QPushButton("⌫ Видалити",   this);
@@ -139,7 +139,7 @@ void MainWindow::buildUi()
     btnLayout->addWidget(m_exportBtn);
     btnLayout->addStretch();
 
-    // ── Загальне компонування ─────────────────────────────────────────────
+    // загальне компонування 
     auto *tableRow = new QHBoxLayout;
     tableRow->addWidget(m_table, 1);
     tableRow->addLayout(btnLayout);
@@ -203,7 +203,7 @@ void MainWindow::connectSignals()
             this, &MainWindow::onTableDoubleClicked);
 }
 
-// ─── Слоти ────────────────────────────────────────────────────────────────
+// слоти
 
 void MainWindow::onAddBook()
 {
@@ -335,7 +335,7 @@ void MainWindow::onTableSelectionChanged()
 
 void MainWindow::onTableDoubleClicked(int, int) { onEditBook(); }
 
-// ─── Таблиця ──────────────────────────────────────────────────────────────
+// таблиця
 
 void MainWindow::refreshTable(const QList<Book> &books)
 {
