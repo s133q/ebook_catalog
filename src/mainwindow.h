@@ -59,7 +59,6 @@ private:
     QPushButton *m_exportBtn;
     QPushButton *m_themeBtn;
 
-    // Пункти меню для керування станом enabled
     QAction *m_editAction;
     QAction *m_deleteAction;
 
